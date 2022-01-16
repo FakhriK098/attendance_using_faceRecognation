@@ -1,0 +1,64 @@
+<resources>
+    <string name="app_name">Absen</string>
+    <string name="title_home">Home</string>
+    <string name="title_dashboard">Absen</string>
+    <string name="title_notifications">User</string>
+    <string name="presensi">PRESENSI</string>
+    <string name="selamat_datang_lorem">Selamat Datang Lorem</string>
+    <string name="tanggal">Tanggal</string>
+    <string name="keterangan_tanggal">20 Januari 2022</string>
+    <string name="pukul">Pukul</string>
+    <string name="keterangan_pukul">08.00</string>
+    <string name="kegiatan">Kegiatan</string>
+    <string name="keterangan_kegiatan">Masuk</string>
+    <string name="history">History</string>
+    <string name="foto_selfie">Foto Selfie</string>
+    <string name="keterangan_selfie">Lakukan verifikasi wajah yang terlihat jelas dan cahaya yang cukup</string>
+    <string name="peringatan">Langkah ini dilakukan untuk melakukan proses presensi</string>
+    <string name="mulai">Mulai</string>
+    <string name="nama">Nama</string>
+    <string name="email">Email</string>
+    <string name="lorem">lorem</string>
+    <string name="asal">Asal</string>
+    <string name="tanggal_lahir">Tanggal Lahir</string>
+    <string name="agama">Agama</string>
+    <string name="jenis_kelamin">Jenis Kelamin</string>
+    <string name="jabatan">Jabatan</string>
+    <string name="hallo_lorem">Hallo Lorem</string>
+    <string name="absen">Absen</string>
+    <string name="password">Password</string>
+    <string name="login">Login</string>
+    <string name="ubah">Ubah</string>
+    <string name="logout">Logout</string>
+    <string name="alamat">Alamat</string>
+    <string name="pilih_foto">Pilih Foto</string>
+
+    <string-array name="kegiatan">
+        <item>Masuk</item>
+        <item>Keluar</item>
+    </string-array>
+
+    <string-array name="agama">
+        <item>Islam</item>
+        <item>Protestan</item>
+        <item>Katolik</item>
+        <item>Hindu</item>
+        <item>Buddha</item>
+        <item>Khonghucu</item>
+    </string-array>
+
+    <string-array name="kelamin">
+        <item>Laki-laki</item>
+        <item>Perempuan</item>
+    </string-array>
+
+    <string-array name="jabatan">
+        <item>Direksi</item>
+        <item>Direktur</item>
+        <item>Manajer</item>
+        <item>Administrasi</item>
+        <item>Divisi</item>
+        <item>Enginner</item>
+    </string-array>
+
+</resources>

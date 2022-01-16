@@ -1,0 +1,170 @@
+<?xml version="1.0" encoding="utf-8"?>
+<FrameLayout
+    xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="350dp"
+    android:layout_height="wrap_content"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    android:layout_gravity="center">
+
+    <ScrollView
+        android:layout_width="350dp"
+        android:layout_height="wrap_content"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintTop_toTopOf="parent">
+
+        <androidx.constraintlayout.widget.ConstraintLayout
+            android:layout_width="350dp"
+            android:layout_height="wrap_content">
+
+            <ImageView
+                android:id="@+id/btn_cancel"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:src="@drawable/ic_baseline_clear_24"
+                app:layout_constraintEnd_toEndOf="parent"
+                app:layout_constraintTop_toTopOf="parent"
+                android:layout_margin="10dp"/>
+
+            <EditText
+                android:id="@+id/et_nama"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:hint="@string/nama"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintEnd_toEndOf="parent"
+                app:layout_constraintTop_toBottomOf="@id/btn_cancel"
+                android:inputType="text"
+                android:layout_margin="12dp"/>
+
+            <EditText
+                android:id="@+id/et_email"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:hint="@string/email"
+                android:inputType="textEmailAddress"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintEnd_toEndOf="parent"
+                app:layout_constraintTop_toBottomOf="@id/et_nama"
+                android:layout_margin="12dp"/>
+
+            <EditText
+                android:id="@+id/et_asal"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:hint="@string/alamat"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintEnd_toEndOf="parent"
+                app:layout_constraintTop_toBottomOf="@id/et_email"
+                android:layout_margin="12dp"
+                android:inputType="text"/>
+
+            <EditText
+                android:id="@+id/et_tanggal_lahir"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:hint="@string/tanggal_lahir"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintEnd_toEndOf="parent"
+                app:layout_constraintTop_toBottomOf="@id/et_asal"
+                android:layout_margin="12dp"
+                android:clickable="false"
+                android:cursorVisible="false"
+                android:focusable="false"
+                android:focusableInTouchMode="false"
+                android:inputType="date"/>
+
+            <Spinner
+                android:id="@+id/sp_agama"
+                android:layout_width="match_parent"
+                android:layout_height="45dp"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintEnd_toEndOf="parent"
+                app:layout_constraintTop_toBottomOf="@id/et_tanggal_lahir"
+                android:layout_margin="12dp"
+                android:spinnerMode="dropdown"
+                android:prompt="@string/agama"
+                android:entries="@array/agama"/>
+
+            <Spinner
+                android:id="@+id/sp_kelamin"
+                android:layout_width="match_parent"
+                android:layout_height="45dp"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintEnd_toEndOf="parent"
+                app:layout_constraintTop_toBottomOf="@id/sp_agama"
+                android:layout_margin="12dp"
+                android:spinnerMode="dropdown"
+                android:prompt="@string/jenis_kelamin"
+                android:entries="@array/kelamin"
+                />
+
+            <Spinner
+                android:id="@+id/sp_jabatan"
+                android:layout_width="match_parent"
+                android:layout_height="45dp"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintEnd_toEndOf="parent"
+                app:layout_constraintTop_toBottomOf="@id/sp_kelamin"
+                android:layout_margin="12dp"
+                android:spinnerMode="dropdown"
+                android:prompt="@string/jabatan"
+                android:entries="@array/jabatan"/>
+
+            <TextView
+                android:id="@+id/hak"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="@string/admin"
+                android:textSize="16sp"
+                android:textColor="@color/black"
+                android:textStyle="bold"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintTop_toBottomOf="@id/sp_jabatan"
+                android:layout_margin="12dp"/>
+
+            <Switch
+                android:id="@+id/sw_admin"
+                android:layout_width="50dp"
+                android:layout_height="wrap_content"
+                app:layout_constraintEnd_toEndOf="parent"
+                app:layout_constraintTop_toBottomOf="@id/sp_jabatan"
+                android:layout_margin="12dp"/>
+
+            <Button
+                android:id="@+id/btn_pilih_foto"
+                android:layout_width="wrap_content"
+                android:layout_height="55dp"
+                android:text="@string/pilih_foto"
+                android:textColor="@color/white"
+                android:backgroundTint="@color/green_700"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintTop_toBottomOf="@id/hak"
+                android:layout_margin="12dp"/>
+
+            <ImageView
+                android:id="@+id/info_data"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:src="@drawable/icons_done"
+                app:layout_constraintStart_toEndOf="@id/btn_pilih_foto"
+                app:layout_constraintTop_toBottomOf="@id/hak"
+                android:layout_marginLeft="20dp"
+                android:layout_marginTop="25dp"/>
+
+            <Button
+                android:id="@+id/btn_ubah"
+                android:layout_width="match_parent"
+                android:layout_height="55dp"
+                android:text="@string/ubah"
+                android:textColor="@color/black"
+                android:backgroundTint="@color/yellow_700"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintEnd_toEndOf="parent"
+                app:layout_constraintBottom_toBottomOf="parent"
+                app:layout_constraintTop_toBottomOf="@id/btn_pilih_foto"
+                android:layout_margin="12dp"/>
+        </androidx.constraintlayout.widget.ConstraintLayout>
+    </ScrollView>
+
+</FrameLayout>

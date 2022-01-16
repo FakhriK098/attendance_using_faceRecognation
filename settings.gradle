@@ -1,0 +1,4 @@
+rootProject.name = "Absensi"
+include ':app'
+include ':OpenCV341'
+include ':app:absen'

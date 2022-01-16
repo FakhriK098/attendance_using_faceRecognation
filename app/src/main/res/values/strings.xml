@@ -1,0 +1,72 @@
+<resources>
+    <string name="app_name">Absensi</string>
+    <string name="title_home">Home</string>
+    <string name="title_dashboard">Absen</string>
+    <string name="title_notifications">User</string>
+    <string name="nama_pegawai">Lorem</string>
+    <string name="add_pegawai">add_pegawai</string>
+    <string name="nama">Nama</string>
+    <string name="alamat">Asal</string>
+    <string name="tanggal_lahir">Tanggal Lahir</string>
+    <string name="pilih_foto">Pilih foto</string>
+    <string name="simpan">simpan</string>
+    <string name="foto_selfie">Foto Selfie</string>
+    <string name="keterangan_selfie">Lakukan verifikasi wajah yang terlihat jelas dan cahaya yang cukup</string>
+    <string name="coution_item">Langkah ini dilakukan untuk melakukan proses presensi</string>
+    <string name="mulai">Mulai</string>
+    <string name="agama">Agama</string>
+    <string name="jenis_kelamin">Jenis Kelamin</string>
+    <string name="jabatan">Jabatan</string>
+    <string name="biodata">Biodata</string>
+    <string name="history">History</string>
+    <string name="tanggal">Tanggal</string>
+    <string name="tanggal_keterangan">29 Desember 2021</string>
+    <string name="pukul_absen">08:00</string>
+    <string name="pukul">Pukul</string>
+    <string name="kegiatan">Kegiatan</string>
+    <string name="kegiatan_absen">Masuk</string>
+    <string name="edit">Edit</string>
+    <string name="delete">Delete</string>
+    <string name="message_confrim_delete">Apakah Anda Yakin Ingin Menghapus?</string>
+    <string name="logout">logout</string>
+    <string name="presensi">ABSENSI</string>
+    <string name="selamat_datang">Selamat Datang Lorem</string>
+    <string name="absen">Absen</string>
+
+    <string name="tittle_pegawai">Tambah Pegawai</string>
+    <string name="email">Email</string>
+    <string name="password">Password</string>
+    <string name="login">login</string>
+    <string name="file_jpg">file.jpg</string>
+    <string name="hallo_lorem">Hallo Lorem</string>
+    <string name="ubah">Ubah</string>
+    <string name="admin">Admin</string>
+
+    <string-array name="agama">
+        <item>Islam</item>
+        <item>Protestan</item>
+        <item>Katolik</item>
+        <item>Hindu</item>
+        <item>Buddha</item>
+        <item>Khonghucu</item>
+    </string-array>
+
+    <string-array name="kelamin">
+        <item>Laki-laki</item>
+        <item>Perempuan</item>
+    </string-array>
+
+    <string-array name="jabatan">
+        <item>Direksi</item>
+        <item>Direktur</item>
+        <item>Manajer</item>
+        <item>Administrasi</item>
+        <item>Divisi</item>
+        <item>Enginner</item>
+    </string-array>
+
+    <string-array name="kegiatan">
+        <item>Masuk</item>
+        <item>Keluar</item>
+    </string-array>
+</resources>

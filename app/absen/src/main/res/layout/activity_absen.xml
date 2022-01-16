@@ -1,0 +1,24 @@
+<?xml version="1.0" encoding="utf-8"?>
+<FrameLayout
+    xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    tools:context=".ui.absen.AbsenActivity">
+
+    <org.opencv.android.JavaCameraView
+        android:id="@+id/frame_surface"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"/>
+
+    <TextView
+        android:id="@+id/tv1"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:text="@string/presensi"
+        android:textSize="20sp"
+        android:textAlignment="center"
+        android:layout_margin="12dp"
+        android:textColor="@color/white"/>
+
+</FrameLayout>
