@@ -2,7 +2,9 @@ package com.example.absen.ui.splash;
 
 import androidx.appcompat.app.AppCompatActivity;
 
+import android.content.Context;
 import android.content.Intent;
+import android.content.SharedPreferences;
 import android.os.Bundle;
 import android.os.Handler;
 
@@ -26,17 +28,10 @@ public class SpleshScreenActivity extends AppCompatActivity {
         setContentView(binding.getRoot());
 
         new Handler().postDelayed(() -> {
-            firebaseAuth = FirebaseAuth.getInstance();
-            if (firebaseAuth.getCurrentUser() != null){
-                String email = utils.usernameFromEmail(firebaseAuth.getCurrentUser().getEmail());
-
-                FirebaseFirestore.getInstance().collection("users").document(email).get()
-                        .addOnSuccessListener(snapshot -> {
-                            startActivity(new Intent(SpleshScreenActivity.this, MainActivity.class));
-                        }).addOnFailureListener(e -> {
-                            startActivity(new Intent(SpleshScreenActivity.this, LoginActivity.class));
-
-                });
+            SharedPreferences preferences = this.getSharedPreferences("myLocalAbsen", Context.MODE_PRIVATE);
+            Boolean hasLogin = preferences.getBoolean("hasLogin", false);
+            if (hasLogin){
+                startActivity(new Intent(SpleshScreenActivity.this, MainActivity.class));
             }else {
                 startActivity(new Intent(SpleshScreenActivity.this, LoginActivity.class));
             }

@@ -1,7 +1,9 @@
 package com.example.absen.ui.notifications;
 
 import android.app.AlertDialog;
+import android.content.Context;
 import android.content.Intent;
+import android.content.SharedPreferences;
 import android.os.Bundle;
 import android.view.LayoutInflater;
 import android.view.Menu;
@@ -81,6 +83,8 @@ public class NotificationsFragment extends Fragment {
         builder.setCancelable(true);
 
         builder.setPositiveButton("Yes", (dialog, which) -> {
+            SharedPreferences preferences = getActivity().getSharedPreferences("myLocalAbsen", Context.MODE_PRIVATE);
+            preferences.edit().clear().commit();
             FirebaseAuth.getInstance().signOut();
             startActivity(new Intent(getActivity(), LoginActivity.class));
             dialog.cancel();
