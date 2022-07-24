@@ -59,6 +59,8 @@ public class HomeFragment extends Fragment implements HistoryAdapter.ItemClickLi
                 super.onDataChange();
                 if (getItemCount() == 0){
                     binding.rvHistory.setVisibility(View.GONE);
+                    binding.progress.setVisibility(View.GONE);
+                    binding.emptyHistory.setVisibility(View.VISIBLE);
                 }else {
                     binding.progress.setVisibility(View.INVISIBLE);
                     binding.rvHistory.setVisibility(View.VISIBLE);

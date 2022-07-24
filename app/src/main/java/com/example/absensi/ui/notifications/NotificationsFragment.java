@@ -2,7 +2,9 @@ package com.example.absensi.ui.notifications;
 
 import android.annotation.SuppressLint;
 import android.app.ProgressDialog;
+import android.content.Context;
 import android.content.Intent;
+import android.content.SharedPreferences;
 import android.os.Bundle;
 import android.util.Log;
 import android.view.LayoutInflater;
@@ -63,6 +65,8 @@ public class NotificationsFragment extends Fragment {
         firebaseFirestore = FirebaseFirestore.getInstance();
 
         binding.btnLogout.setOnClickListener(v -> {
+            SharedPreferences preferences = getActivity().getSharedPreferences("myLocalAbsensi", Context.MODE_PRIVATE);
+            preferences.edit().clear().commit();
             FirebaseAuth.getInstance().signOut();
             startActivity(new Intent(getActivity(), LoginActivity.class));
         });

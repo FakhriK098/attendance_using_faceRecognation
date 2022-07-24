@@ -4,7 +4,9 @@ import androidx.appcompat.app.AppCompatActivity;
 
 import android.app.AlertDialog;
 import android.app.ProgressDialog;
+import android.content.Context;
 import android.content.Intent;
+import android.content.SharedPreferences;
 import android.os.Bundle;
 import android.text.TextUtils;
 import android.text.method.HideReturnsTransformationMethod;
@@ -77,6 +79,9 @@ public class LoginActivity extends AppCompatActivity {
         String userId = utils.usernameFromEmail(email);
         firebaseFirestore.collection("users").document(userId).get()
                 .addOnSuccessListener(snapshot -> {
+                    SharedPreferences preferences = this.getSharedPreferences("myLocalAbsen", Context.MODE_PRIVATE);
+                    SharedPreferences.Editor editor = preferences.edit();
+                    editor.putBoolean("hasLogin", true).apply();
                     startActivity(new Intent(LoginActivity.this, MainActivity.class));
                 }).addOnFailureListener(e -> {
                     AlertDialog.Builder builder = new AlertDialog.Builder(this);

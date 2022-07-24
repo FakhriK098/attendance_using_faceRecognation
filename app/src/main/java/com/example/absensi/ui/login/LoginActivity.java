@@ -6,6 +6,7 @@ import androidx.appcompat.app.AppCompatActivity;
 import android.app.AlertDialog;
 import android.app.ProgressDialog;
 import android.content.Intent;
+import android.content.SharedPreferences;
 import android.os.Bundle;
 import android.text.TextUtils;
 import android.text.method.HideReturnsTransformationMethod;
@@ -110,6 +111,9 @@ public class LoginActivity extends AppCompatActivity {
                         DataKaryawan dataKaryawan = snapshot.toObject(DataKaryawan.class);
 
                         if (dataKaryawan.getHakAkses().equals("true")){
+                            SharedPreferences preferences = this.getSharedPreferences("myLocalAbsensi",MODE_PRIVATE);
+                            SharedPreferences.Editor editor = preferences.edit();
+                            editor.putBoolean("hasLogin", true).apply();
                             Intent intent = new Intent(LoginActivity.this, MainActivity.class);
                             startActivity(intent);
                         }else {
