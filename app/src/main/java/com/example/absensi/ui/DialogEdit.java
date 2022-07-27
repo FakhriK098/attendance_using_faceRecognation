@@ -11,6 +11,8 @@ import android.net.Uri;
 import android.os.Bundle;
 import android.provider.MediaStore;
 import android.text.TextUtils;
+import android.text.method.HideReturnsTransformationMethod;
+import android.text.method.PasswordTransformationMethod;
 import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
@@ -21,6 +23,7 @@ import android.widget.EditText;
 import android.widget.ImageView;
 import android.widget.Spinner;
 import android.widget.Switch;
+import android.widget.TextView;
 
 import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
@@ -53,6 +56,7 @@ public class DialogEdit extends DialogFragment implements View.OnClickListener {
 
     private EditText mNama, mEmail, mAsal, mTanggalLahir;
     private Spinner mAgama, mKelamin, mJabatan;
+    private TextView mFailed;
     private ImageView mInfo;
     private Switch mAdmin;
     private String imageUri;
@@ -86,6 +90,8 @@ public class DialogEdit extends DialogFragment implements View.OnClickListener {
         mJabatan = view.findViewById(R.id.sp_jabatan);
 
         mAdmin = view.findViewById(R.id.sw_admin);
+
+        mFailed = view.findViewById(R.id.tv_failed);
 
         Button mPilihPoto = view.findViewById(R.id.btn_pilih_foto);
         Button mUbah = view.findViewById(R.id.btn_ubah);
@@ -199,6 +205,7 @@ public class DialogEdit extends DialogFragment implements View.OnClickListener {
                 intent.setType("image/*");
                 intent.setAction(Intent.ACTION_GET_CONTENT);
                 startActivityForResult(intent,1);
+                break;
         }
 
     }
@@ -223,6 +230,11 @@ public class DialogEdit extends DialogFragment implements View.OnClickListener {
             }
 
             readFace = faceRecognetion.recognizePicture(obj);
+
+            if (readFace.isEmpty()){
+                mInfo.setVisibility(View.GONE);
+                mFailed.setVisibility(View.VISIBLE);
+            }
         }
     }
 
@@ -248,7 +260,6 @@ public class DialogEdit extends DialogFragment implements View.OnClickListener {
         storageReference.putFile(imageUri_).addOnCompleteListener(task ->
                 storageReference.getDownloadUrl().addOnSuccessListener(uri -> {
             final String image = uri.toString();
-            Log.d(TAG,"Upload Sukses, "+image);
             editKaryawan(image);
         }));
     }
@@ -272,9 +283,8 @@ public class DialogEdit extends DialogFragment implements View.OnClickListener {
         String kelamin = mKelamin.getSelectedItem().toString();
         String jabatan = mJabatan.getSelectedItem().toString();
         String hakAkses = String.valueOf(mAdmin.isChecked());
-        Log.d(TAG,"imageuri for upload, "+imageUri);
 
-        DataKaryawan dataKaryawan = new DataKaryawan(nama,email,asal,ttl,agama,kelamin,jabatan,image,readFace, hakAkses);
+        DataKaryawan dataKaryawan = new DataKaryawan(userId,nama,email,asal,ttl,agama,kelamin,jabatan,image,readFace, hakAkses, false);
         Map<String,Object> map = dataKaryawan.toMap();
         firebaseFirestore.collection("users").document(userId)
                 .update(map)

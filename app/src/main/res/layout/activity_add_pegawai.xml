@@ -32,11 +32,25 @@
             <View
                 android:id="@+id/v1"
                 android:layout_width="match_parent"
-                android:layout_height="570dp"
+                android:layout_height="630dp"
                 android:background="@drawable/ic_rectangel_big"
                 app:layout_constraintStart_toStartOf="parent"
                 app:layout_constraintEnd_toEndOf="parent"
                 app:layout_constraintTop_toTopOf="parent"/>
+
+            <EditText
+                android:id="@+id/et_nik"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:hint="NIK"
+                android:textColorHint="@color/white"
+                android:textColor="@color/white"
+                android:maxLength="16"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintEnd_toEndOf="parent"
+                app:layout_constraintTop_toTopOf="parent"
+                android:inputType="number"
+                android:layout_margin="12dp"/>
 
             <EditText
                 android:id="@+id/et_nama"
@@ -47,7 +61,7 @@
                 android:textColor="@color/white"
                 app:layout_constraintStart_toStartOf="parent"
                 app:layout_constraintEnd_toEndOf="parent"
-                app:layout_constraintTop_toTopOf="parent"
+                app:layout_constraintTop_toBottomOf="@+id/et_nik"
                 android:inputType="textCapSentences"
                 android:layout_margin="12dp"/>
 
@@ -78,9 +92,9 @@
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
                     android:hint="@string/password"
+                    android:inputType="textPassword"
                     android:textColor="@color/white"
-                    android:textColorHint="@color/white"
-                    android:inputType="textPassword"/>
+                    android:textColorHint="@color/white" />
 
                 <ImageView
                     android:id="@+id/btn_show_pass"
@@ -200,6 +214,19 @@
                 android:src="@drawable/icons_done"
                 app:layout_constraintStart_toEndOf="@id/btn_pilih_foto"
                 app:layout_constraintTop_toBottomOf="@id/hak"
+                android:layout_marginLeft="20dp"
+                android:layout_marginTop="25dp"/>
+
+            <TextView
+                android:id="@+id/tv_failed"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:visibility="gone"
+                app:layout_constraintStart_toEndOf="@id/btn_pilih_foto"
+                app:layout_constraintTop_toBottomOf="@id/hak"
+                android:text="Foto tidak terbaca, mohon coba kembali"
+                android:textSize="16sp"
+                android:textColor="@color/white"
                 android:layout_marginLeft="20dp"
                 android:layout_marginTop="25dp"/>
 

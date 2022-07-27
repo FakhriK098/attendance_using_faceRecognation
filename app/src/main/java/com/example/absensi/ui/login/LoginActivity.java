@@ -11,12 +11,14 @@ import android.text.TextUtils;
 import android.text.method.HideReturnsTransformationMethod;
 import android.text.method.PasswordTransformationMethod;
 import android.util.Log;
+import android.widget.Toast;
 
 import com.example.absensi.MainActivity;
 import com.example.absensi.R;
 import com.example.absensi.core.Utils;
 import com.example.absensi.core.model.DataKaryawan;
 import com.example.absensi.databinding.ActivityLoginBinding;
+import com.example.absensi.ui.resetpassword.ResetPasswordActivity;
 import com.google.android.gms.tasks.OnFailureListener;
 import com.google.android.gms.tasks.OnSuccessListener;
 import com.google.android.material.snackbar.Snackbar;
@@ -58,6 +60,10 @@ public class LoginActivity extends AppCompatActivity {
                 binding.etPassword.setTransformationMethod(PasswordTransformationMethod.getInstance());
             }
         });
+
+        binding.tvForgotPass.setOnClickListener(v -> {
+            startActivity(new Intent(LoginActivity.this, ResetPasswordActivity.class));
+        });
     }
 
     private boolean validateForm(){
@@ -86,14 +92,13 @@ public class LoginActivity extends AppCompatActivity {
             progressDialog.show();
             String email = binding.etEmail.getText().toString();
             String password = binding.etPassword.getText().toString();
-
             firebaseAuth.signInWithEmailAndPassword(email,password)
                     .addOnCompleteListener(LoginActivity.this, task -> {
                         progressDialog.dismiss();
                         if (task.isSuccessful()){
                             onSuccess();
                         }else {
-                            Snackbar.make(binding.getRoot(),"Email and Password Wrong!!",Snackbar.LENGTH_SHORT).show();
+                            Toast.makeText(LoginActivity.this,"Email and Password Wrong!!",Toast.LENGTH_SHORT).show();
                             binding.etEmail.setText("");
                             binding.etPassword.setText("");
                         }
@@ -112,6 +117,17 @@ public class LoginActivity extends AppCompatActivity {
                         if (dataKaryawan.getHakAkses().equals("true")){
                             Intent intent = new Intent(LoginActivity.this, MainActivity.class);
                             startActivity(intent);
+                        }else if (dataKaryawan.getSuspend().equals(true)){
+                            AlertDialog.Builder builder = new AlertDialog.Builder(this);
+
+                            builder.setMessage("Akun Anda Sudah Tersuspend");
+                            builder.setCancelable(true);
+
+                            AlertDialog alertDialog = builder.create();
+                            alertDialog.show();
+
+                            binding.etEmail.setText("");
+                            binding.etPassword.setText("");
                         }else {
                             AlertDialog.Builder builder = new AlertDialog.Builder(this);
 

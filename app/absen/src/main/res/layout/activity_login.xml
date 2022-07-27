@@ -80,6 +80,18 @@
             </RelativeLayout>
         </androidx.cardview.widget.CardView>
 
+        <TextView
+            android:id="@+id/tv_forgot_password"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="Lupa password?"
+            android:textColor="@color/white"
+            android:textSize="18sp"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toBottomOf="@id/cv2"
+            android:layout_marginStart="12dp"
+            android:layout_marginTop="15dp"/>
+
         <Button
             android:id="@+id/btn_login"
             android:layout_width="match_parent"
@@ -89,7 +101,7 @@
             android:backgroundTint="@color/yellow_700"
             app:layout_constraintStart_toStartOf="parent"
             app:layout_constraintEnd_toEndOf="parent"
-            app:layout_constraintTop_toBottomOf="@id/cv2"
+            app:layout_constraintTop_toBottomOf="@id/tv_forgot_password"
             android:layout_marginStart="12dp"
             android:layout_marginEnd="12dp"
             android:layout_marginTop="15dp"/>

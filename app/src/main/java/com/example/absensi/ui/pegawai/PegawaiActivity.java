@@ -14,6 +14,7 @@ import android.view.Menu;
 import android.view.MenuInflater;
 import android.view.MenuItem;
 import android.view.View;
+import android.widget.Toast;
 
 import com.bumptech.glide.Glide;
 import com.example.absensi.MainActivity;
@@ -25,6 +26,7 @@ import com.example.absensi.databinding.ActivityPegawaiBinding;
 import com.example.absensi.ui.DialogEdit;
 import com.example.absensi.ui.SpalshActivity;
 import com.example.absensi.ui.login.LoginActivity;
+import com.google.android.gms.tasks.OnFailureListener;
 import com.google.android.material.snackbar.Snackbar;
 import com.google.firebase.auth.FirebaseAuth;
 import com.google.firebase.firestore.DocumentReference;
@@ -137,20 +139,21 @@ public class PegawaiActivity extends AppCompatActivity implements AbsenAdapter.I
                 .delete().addOnSuccessListener(unused -> {
                     StorageReference reference = FirebaseStorage.getInstance().getReference();
                     reference.child(folder).delete().addOnSuccessListener(unused1 -> {
-                        Log.d(TAG,"delete Image sukses");
                         progressDialog.dismiss();
                         startActivity(new Intent(PegawaiActivity.this, MainActivity.class));
                     });
+                }).addOnFailureListener(e -> {
+                    progressDialog.dismiss();
+                    Toast.makeText(PegawaiActivity.this, e.getMessage(), Toast.LENGTH_SHORT).show();
                 });
     }
 
     @Override
     protected void onStart() {
         super.onStart();
-        if (firebaseAuth.getCurrentUser() != null){
-            if (absenAdapter != null){
-                absenAdapter.startListening();
-            }
+        showKaryawan();
+        if (absenAdapter != null){
+            absenAdapter.startListening();
         }
     }
 
@@ -205,6 +208,7 @@ public class PegawaiActivity extends AppCompatActivity implements AbsenAdapter.I
         binding.vBiodata.tvAgamaPegawai.setText(karyawan.getAgama());
         binding.vBiodata.tvKelaminPegawai.setText(karyawan.getJenis_kelamin());
         binding.vBiodata.tvJabatanPegawai.setText(karyawan.getJabatan());
+        binding.vBiodata.tvNikPegawai.setText(userId);
 
 
         Glide.with(binding.imgPegawai.getContext())
