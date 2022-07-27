@@ -16,6 +16,7 @@ import com.example.absen.MainActivity;
 import com.example.absen.R;
 import com.example.absen.core.Utils;
 import com.example.absen.databinding.ActivityLoginBinding;
+import com.example.absen.ui.reserpassword.ResetPasswordActivity;
 import com.google.android.material.snackbar.Snackbar;
 import com.google.firebase.auth.FirebaseAuth;
 import com.google.firebase.firestore.FirebaseFirestore;
@@ -50,6 +51,10 @@ public class LoginActivity extends AppCompatActivity {
                 binding.btnShowPass.setImageResource(R.drawable.icons_eye_green24);
                 binding.etPassword.setTransformationMethod(PasswordTransformationMethod.getInstance());
             }
+        });
+
+        binding.tvForgotPassword.setOnClickListener(v -> {
+            startActivity(new Intent(LoginActivity.this, ResetPasswordActivity.class));
         });
     }
 

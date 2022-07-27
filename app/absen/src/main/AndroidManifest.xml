@@ -24,7 +24,8 @@
         android:roundIcon="@drawable/logo_absen"
         android:supportsRtl="true"
         android:theme="@style/Theme.Absensi">
-        <activity android:name=".MainActivity"></activity>
+        <activity android:name=".ui.reserpassword.ResetPasswordActivity" />
+        <activity android:name=".MainActivity" />
         <activity android:name=".ui.login.LoginActivity" />
         <activity android:name=".ui.absen.ResultAbsenActivity" />
         <activity android:name=".ui.absen.AbsenActivity" />

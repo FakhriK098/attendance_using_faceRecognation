@@ -27,8 +27,6 @@ import com.example.absensi.MainActivity;
 import com.example.absensi.R;
 import com.example.absensi.core.model.DataKaryawan;
 import com.example.absensi.databinding.ActivityAddPegawaiBinding;
-import com.example.absensi.ui.SpalshActivity;
-import com.example.absensi.ui.login.LoginActivity;
 import com.google.firebase.auth.FirebaseAuth;
 import com.google.firebase.firestore.FirebaseFirestore;
 import com.google.firebase.storage.FirebaseStorage;
@@ -45,6 +43,7 @@ import java.text.SimpleDateFormat;
 import java.util.Calendar;
 import java.util.Locale;
 import java.util.Map;
+import java.util.regex.Pattern;
 
 public class AddPegawaiActivity extends AppCompatActivity implements View.OnClickListener {
     private static final String TAG = "AddPegawaiActivity";
@@ -54,12 +53,12 @@ public class AddPegawaiActivity extends AppCompatActivity implements View.OnClic
     private final Calendar mCalendar = Calendar.getInstance();
     private DatePickerDialog.OnDateSetListener dateSetListener;
     private FirebaseAuth firebaseAuth;
-    private Uri imageUri;
+    private Uri imageUri = null;
     private ProgressDialog progressDialog;
     private FirebaseFirestore firebaseFirestore;
 
     private String username;
-    private String resultFace;
+    private String resultFace = "";
     private BaseLoaderCallback baseLoaderCallback;
     private FaceRecognetion faceRecognetion;
 
@@ -167,6 +166,10 @@ public class AddPegawaiActivity extends AppCompatActivity implements View.OnClic
 
             resultFace = faceRecognetion.recognizePicture(obj);
 
+            if (resultFace.isEmpty()){
+                binding.infoData.setVisibility(View.GONE);
+                binding.tvFailed.setVisibility(View.VISIBLE);
+            }
 
         }else {
             binding.infoData.setImageResource(R.drawable.icons_error);
@@ -196,16 +199,19 @@ public class AddPegawaiActivity extends AppCompatActivity implements View.OnClic
         String kelamin = binding.spKelamin.getSelectedItem().toString();
         String jabatan = binding.spJabatan.getSelectedItem().toString();
         String hakAkses = String.valueOf(binding.swAdmin.isChecked());
+        String nik = binding.etNik.getText().toString();
 
-        DataKaryawan dataKaryawan = new DataKaryawan(nama,email,asal,tanggal,agama,kelamin,jabatan,uri, resultFace, hakAkses);
-        Map<String, Object> map = dataKaryawan.toMap();
-        firebaseFirestore.collection("users")
-                .document(username)
-                .set(map)
-                .addOnSuccessListener(unused -> {
-                    progressDialog.dismiss();
-                    startActivity(new Intent(AddPegawaiActivity.this, MainActivity.class));
-                }).addOnFailureListener(e -> Log.e(TAG, e.getMessage()));
+        if (!resultFace.isEmpty()){
+            DataKaryawan dataKaryawan = new DataKaryawan(nik,nama,email,asal,tanggal,agama,kelamin,jabatan,uri, resultFace, hakAkses, false);
+            Map<String, Object> map = dataKaryawan.toMap();
+            firebaseFirestore.collection("users")
+                    .document(nik)
+                    .set(map)
+                    .addOnSuccessListener(unused -> {
+                        progressDialog.dismiss();
+                        startActivity(new Intent(AddPegawaiActivity.this, MainActivity.class));
+                    }).addOnFailureListener(e -> Log.e(TAG, e.getMessage()));
+        }
 
     }
 
@@ -238,6 +244,23 @@ public class AddPegawaiActivity extends AppCompatActivity implements View.OnClic
 
     private boolean validateForm(){
         boolean result = true;
+
+        if (TextUtils.isEmpty(binding.etNik.getText().toString())){
+            binding.etNik.setError("Required");
+            result = false;
+        }else {
+            binding.etNik.setError(null);
+        }
+
+        int nik = Integer.parseInt(binding.etNik.getText().toString());
+
+        if (nik <= 16){
+            result = false;
+            binding.etNik.setError("Panjang NIK harus 16");
+        }else {
+            binding.etNik.setError(null);
+        }
+
         if (TextUtils.isEmpty(binding.etNama.getText().toString())){
             binding.etNama.setError("Required");
             result = false;
@@ -250,6 +273,29 @@ public class AddPegawaiActivity extends AppCompatActivity implements View.OnClic
             result = false;
         }else {
             binding.etEmail.setError(null);
+        }
+
+        String regexPattern = "^(.+)@(\\S+)$";
+        result = Pattern.compile(regexPattern)
+                .matcher(binding.etEmail.getText().toString())
+                .matches();
+
+        if (!result){
+            binding.etEmail.setError("Format email");
+        }else {
+            binding.etEmail.setError(null);
+        }
+
+        int currentYear = Calendar.getInstance().get(Calendar.YEAR);
+
+        SimpleDateFormat sdf = new SimpleDateFormat("yyyy", Locale.US);
+        String selectedYear = sdf.format(mCalendar.getTime());
+        if (currentYear <= Integer.parseInt(selectedYear)){
+            result = false;
+            Toast.makeText(AddPegawaiActivity.this, "Tahun salah",Toast.LENGTH_SHORT).show();
+            binding.etTanggalLahir.setError("Tahun salah");
+        }else {
+            binding.etTanggalLahir.setError(null);
         }
 
         if (TextUtils.isEmpty(binding.etPassword.getText().toString())){
@@ -273,6 +319,7 @@ public class AddPegawaiActivity extends AppCompatActivity implements View.OnClic
             binding.etTanggalLahir.setError(null);
         }
 
+        binding.infoData.setVisibility(View.VISIBLE);
         if (imageUri == null){
             binding.infoData.setImageResource(R.drawable.icons_error);
             result = false;
@@ -284,16 +331,33 @@ public class AddPegawaiActivity extends AppCompatActivity implements View.OnClic
     }
 
     private void writeNewUser(String email, String password){
-        if (validateForm()){
-            firebaseAuth.createUserWithEmailAndPassword(email,password)
-                    .addOnCompleteListener(this, task -> {
-                        if (task.isSuccessful()){
-                            uploadImgae();
+        String nik = binding.etNik.getText().toString();
+        firebaseFirestore.collection("users").document(nik).get()
+                .addOnSuccessListener(snapshot -> {
+                    if (snapshot.exists()){
+                        progressDialog.dismiss();
+
+                        AlertDialog.Builder builder = new AlertDialog.Builder(AddPegawaiActivity.this);
+                        builder.setMessage("NIK Sudah Terdaftar");
+                        builder.setCancelable(true);
+                    }else {
+                        if (validateForm()){
+                            firebaseAuth.createUserWithEmailAndPassword(email,password)
+                                    .addOnCompleteListener(this, task -> {
+                                        if (task.isSuccessful()){
+                                            uploadImgae();
+                                        }else {
+                                            Toast.makeText(null,"Auth failed",Toast.LENGTH_LONG).show();
+                                        }
+                                    });
                         }else {
-                            Toast.makeText(null,"Auth failed",Toast.LENGTH_LONG).show();
+                            progressDialog.dismiss();
                         }
-                    });
-        }
+                    }
+                })
+                .addOnFailureListener(e -> {
+                    Toast.makeText(AddPegawaiActivity.this, e.getMessage(), Toast.LENGTH_SHORT).show();
+                });
     }
 
 

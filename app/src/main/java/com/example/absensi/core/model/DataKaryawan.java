@@ -5,11 +5,29 @@ import java.util.List;
 import java.util.Map;
 
 public class DataKaryawan {
-    private String nama, email, asal, tanggal_lahir, agama, jenis_kelamin, jabatan,imageUri, readFace, hakAkses;
+    private String nama, email, asal, tanggal_lahir, agama, jenis_kelamin, jabatan,imageUri, readFace, hakAkses, nik;
+
+    private Boolean isSuspend;
+
+    public String getNik() {
+        return nik;
+    }
+
+    public void setNik(String nik) {
+        this.nik = nik;
+    }
+
+    public Boolean getSuspend() {
+        return isSuspend;
+    }
+
+    public void setSuspend(Boolean suspend) {
+        isSuspend = suspend;
+    }
 
     public DataKaryawan(){}
 
-    public DataKaryawan(String nama, String email, String asal, String tanggal_lahir, String agama, String jenis_kelamin, String jabatan, String imageUri, String readFace, String hakAkses) {
+    public DataKaryawan(String nik,String nama, String email, String asal, String tanggal_lahir, String agama, String jenis_kelamin, String jabatan, String imageUri, String readFace, String hakAkses, Boolean isSuspend) {
         this.nama = nama;
         this.email = email;
         this.asal = asal;
@@ -20,6 +38,8 @@ public class DataKaryawan {
         this.imageUri = imageUri;
         this.readFace = readFace;
         this.hakAkses = hakAkses;
+        this.isSuspend = isSuspend;
+        this.nik = nik;
     }
 
     public Map<String, Object> toMap(){
@@ -34,6 +54,7 @@ public class DataKaryawan {
         result.put("imageUri", imageUri);
         result.put("readFace", readFace);
         result.put("hakAkses", hakAkses);
+        result.put("isSuspend", isSuspend);
         return result;
     }
 
