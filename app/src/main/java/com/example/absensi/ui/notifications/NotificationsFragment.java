@@ -81,19 +81,17 @@ public class NotificationsFragment extends Fragment {
     @Override
     public void onStart() {
         super.onStart();
-        if (firebaseAuth.getCurrentUser() != null){
-            userId = utils.usernameFromEmail(firebaseAuth.getCurrentUser().getEmail());
+        SharedPreferences preferences = getActivity().getSharedPreferences("myLocalAbsensi", Context.MODE_PRIVATE);
+        userId = preferences.getString("userId","");
 
-            firebaseFirestore.collection("users").document(userId).get()
-                    .addOnSuccessListener(snapshot -> {
-                        DocumentReference documentReference = firebaseFirestore.collection("users").document(userId);
+        firebaseFirestore.collection("users").document(userId).get()
+                .addOnSuccessListener(snapshot -> {
+                    DocumentReference documentReference = firebaseFirestore.collection("users").document(userId);
 
-                        showData(documentReference);
-                    }).addOnFailureListener(e -> {
-                        showMessage();
-            });
-        }
-
+                    showData(documentReference);
+                }).addOnFailureListener(e -> {
+                    showMessage();
+                });
     }
 
     private void showData(DocumentReference documentReference) {
@@ -115,6 +113,7 @@ public class NotificationsFragment extends Fragment {
         binding.vBiodata.tvAgamaPegawai.setText(karyawan.getAgama());
         binding.vBiodata.tvKelaminPegawai.setText(karyawan.getJenis_kelamin());
         binding.vBiodata.tvJabatanPegawai.setText(karyawan.getJabatan());
+        binding.vBiodata.tvNikPegawai.setText(karyawan.getNik());
 
         Glide.with(binding.imgPegawai.getContext())
                 .load(karyawan.getImageUri())
