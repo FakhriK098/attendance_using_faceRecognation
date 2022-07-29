@@ -14,14 +14,36 @@
         android:padding="20dp">
 
         <TextView
+            android:id="@+id/tvNIK"
+            android:textSize="16sp"
+            android:textColor="@color/black"
+            android:text="NIK"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toTopOf="parent"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"/>
+
+        <TextView
+            android:id="@+id/tv_nik_pegawai"
+            android:text="@string/lorem"
+            android:textSize="16sp"
+            android:textColor="@color/grey"
+            android:textStyle="bold"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintTop_toTopOf="parent"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"/>
+
+        <TextView
             android:id="@+id/tv1"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:text="@string/nama"
             android:textSize="16sp"
             android:textColor="@color/black"
+            android:layout_marginTop="20dp"
             app:layout_constraintStart_toStartOf="parent"
-            app:layout_constraintTop_toTopOf="parent"/>
+            app:layout_constraintTop_toBottomOf="@+id/tvNIK"/>
 
         <TextView
             android:id="@+id/tvemail"
@@ -54,8 +76,9 @@
             android:textSize="16sp"
             android:textColor="@color/grey"
             android:textStyle="bold"
+            android:layout_marginTop="20dp"
             app:layout_constraintEnd_toEndOf="parent"
-            app:layout_constraintTop_toTopOf="parent"/>
+            app:layout_constraintTop_toBottomOf="@+id/tv_nik_pegawai"/>
 
         <TextView
             android:id="@+id/tv2"

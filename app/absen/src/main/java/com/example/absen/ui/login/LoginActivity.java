@@ -86,6 +86,7 @@ public class LoginActivity extends AppCompatActivity {
                 .addOnSuccessListener(snapshot -> {
                     SharedPreferences preferences = this.getSharedPreferences("myLocalAbsen", Context.MODE_PRIVATE);
                     SharedPreferences.Editor editor = preferences.edit();
+                    editor.putString("userId", userId);
                     editor.putBoolean("hasLogin", true).apply();
                     startActivity(new Intent(LoginActivity.this, MainActivity.class));
                 }).addOnFailureListener(e -> {

@@ -119,6 +119,7 @@ public class LoginActivity extends AppCompatActivity {
                             SharedPreferences preferences = this.getSharedPreferences("myLocalAbsensi",MODE_PRIVATE);
                             SharedPreferences.Editor editor = preferences.edit();
                             editor.putBoolean("hasLogin", true).apply();
+                            editor.putString("userId", userId).apply();
                             Intent intent = new Intent(LoginActivity.this, MainActivity.class);
                             startActivity(intent);
                         }else if (dataKaryawan.getSuspend().equals(true)){

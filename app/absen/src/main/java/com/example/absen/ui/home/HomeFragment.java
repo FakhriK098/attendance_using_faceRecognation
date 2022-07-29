@@ -1,6 +1,8 @@
 package com.example.absen.ui.home;
 
+import android.content.Context;
 import android.content.Intent;
+import android.content.SharedPreferences;
 import android.os.Bundle;
 import android.util.Log;
 import android.view.LayoutInflater;
@@ -82,20 +84,20 @@ public class HomeFragment extends Fragment implements HistoryAdapter.ItemClickLi
     @Override
     public void onStart() {
         super.onStart();
-        if (firebaseAuth.getCurrentUser() != null){
-            userId = utils.usernameFromEmail(firebaseAuth.getCurrentUser().getEmail());
 
-            firebaseFirestore.collection("users").document(userId).get()
-                    .addOnSuccessListener(snapshot -> {
-                        showHistory();
-                        getNama();
-                        if (historyAdapter != null){
-                            historyAdapter.startListening();
-                        }
-                    }).addOnFailureListener(e -> {
-                        showMassage();
-            });
-        }
+        SharedPreferences preferences = requireActivity().getSharedPreferences("myLocalAbsen", Context.MODE_PRIVATE);
+        userId = preferences.getString("userId","");
+
+        firebaseFirestore.collection("users").document(userId).get()
+                .addOnSuccessListener(snapshot -> {
+                    showHistory();
+                    getNama();
+                    if (historyAdapter != null){
+                        historyAdapter.startListening();
+                    }
+                }).addOnFailureListener(e -> {
+                    showMassage();
+                });
     }
 
     private void showMassage() {

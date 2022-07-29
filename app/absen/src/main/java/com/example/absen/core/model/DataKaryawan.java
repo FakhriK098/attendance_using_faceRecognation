@@ -4,11 +4,11 @@ import java.util.HashMap;
 import java.util.Map;
 
 public class DataKaryawan {
-    private String nama, email, asal, tanggal_lahir, agama, jenis_kelamin, jabatan,imageUri, readFace;
+    private String nama, email, asal, tanggal_lahir, agama, jenis_kelamin, jabatan,imageUri, readFace, nik;
 
     public DataKaryawan(){}
 
-    public DataKaryawan(String nama, String email, String asal, String tanggal_lahir, String agama, String jenis_kelamin, String jabatan, String imageUri, String readFace) {
+    public DataKaryawan(String nik,String nama, String email, String asal, String tanggal_lahir, String agama, String jenis_kelamin, String jabatan, String imageUri, String readFace) {
         this.nama = nama;
         this.email = email;
         this.asal = asal;
@@ -18,6 +18,7 @@ public class DataKaryawan {
         this.jabatan = jabatan;
         this.imageUri = imageUri;
         this.readFace = readFace;
+        this.nik = nik;
     }
 
     public Map<String, Object> toMap(){
@@ -31,7 +32,16 @@ public class DataKaryawan {
         result.put("jabatan", jabatan);
         result.put("imageUri", imageUri);
         result.put("readFace", readFace);
+        result.put("nik", nik);
         return result;
+    }
+
+    public String getNik() {
+        return nik;
+    }
+
+    public void setNik(String nik) {
+        this.nik = nik;
     }
 
     public String getNama() {

@@ -1,6 +1,8 @@
 package com.example.absensi.ui.dashboard;
 
+import android.content.Context;
 import android.content.Intent;
+import android.content.SharedPreferences;
 import android.os.Bundle;
 import android.util.Log;
 import android.view.LayoutInflater;
@@ -54,16 +56,15 @@ public class DashboardFragment extends Fragment implements View.OnClickListener 
     @Override
     public void onStart() {
         super.onStart();
-        if (firebaseAuth.getCurrentUser() != null){
-            String email = utils.usernameFromEmail(firebaseAuth.getCurrentUser().getEmail());
+        SharedPreferences preferences = requireActivity().getSharedPreferences("myLocalAbsensi", Context.MODE_PRIVATE);
+        String email = preferences.getString("userId","");
 
-            firebaseFirestore.collection("users").document(email).get()
-                    .addOnSuccessListener(snapshot -> {
-                        getFaceRead(email);
-                    }).addOnFailureListener(e -> {
-                        showMessage();
-            });
-        }
+        firebaseFirestore.collection("users").document(email).get()
+                .addOnSuccessListener(snapshot -> {
+                    getFaceRead(email);
+                }).addOnFailureListener(e -> {
+                    showMessage();
+                });
     }
 
     @Override

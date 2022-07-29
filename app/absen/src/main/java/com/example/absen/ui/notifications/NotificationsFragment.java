@@ -44,7 +44,7 @@ public class NotificationsFragment extends Fragment {
     private Utils utils;
     private List<DataKaryawan> list;
 
-    private TextView mNama, mEmail, mAlamat, mTanggal, mAgama, mKelamin, mJabatan;
+    private TextView mNama, mEmail, mAlamat, mTanggal, mAgama, mKelamin, mJabatan, mNIK;
     private ImageView mImage;
 
     public View onCreateView(@NonNull LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
@@ -65,6 +65,7 @@ public class NotificationsFragment extends Fragment {
         mAgama = root.findViewById(R.id.tv_agama_pegawai);
         mKelamin = root.findViewById(R.id.tv_kelamin_pegawai);
         mJabatan = root.findViewById(R.id.tv_jabatan_pegawai);
+        mNIK = root.findViewById(R.id.tv_nik_pegawai);
 
         mImage = root.findViewById(R.id.img_pegawai);
 
@@ -101,18 +102,17 @@ public class NotificationsFragment extends Fragment {
     @Override
     public void onStart() {
         super.onStart();
-        if (firebaseAuth.getCurrentUser() != null){
-            String userId = utils.usernameFromEmail(firebaseAuth.getCurrentUser().getEmail());
+        SharedPreferences preferences = requireActivity().getSharedPreferences("myLocalAbsen", Context.MODE_PRIVATE);
+        String userId = preferences.getString("userId","");
 
-            firebaseFirestore.collection("users").document(userId).get()
-                    .addOnSuccessListener(snapshot -> {
-                        DocumentReference documentReference = firebaseFirestore.collection("users").document(userId);
+        firebaseFirestore.collection("users").document(userId).get()
+                .addOnSuccessListener(snapshot -> {
+                    DocumentReference documentReference = firebaseFirestore.collection("users").document(userId);
 
-                        showData(documentReference);
-                    }).addOnFailureListener(e -> {
-                        showMassage();
-            });
-        }
+                    showData(documentReference);
+                }).addOnFailureListener(e -> {
+                    showMassage();
+                });
     }
 
     private void showMassage() {
@@ -144,6 +144,7 @@ public class NotificationsFragment extends Fragment {
                         mAgama.setText(dataKaryawan.getAgama());
                         mKelamin.setText(dataKaryawan.getJenis_kelamin());
                         mJabatan.setText(dataKaryawan.getJabatan());
+                        mNIK.setText(dataKaryawan.getNik());
 
                         Glide.with(mImage.getContext())
                                 .load(dataKaryawan.getImageUri())

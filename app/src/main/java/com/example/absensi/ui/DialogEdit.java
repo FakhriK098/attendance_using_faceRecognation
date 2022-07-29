@@ -63,6 +63,7 @@ public class DialogEdit extends DialogFragment implements View.OnClickListener {
     private Uri imageUriNew = null;
     private String userId;
     private String readFace;
+    private String nik;
 
     private final Calendar mCalendar = Calendar.getInstance();
     private DatePickerDialog.OnDateSetListener dateSetListener;
@@ -151,6 +152,7 @@ public class DialogEdit extends DialogFragment implements View.OnClickListener {
         mTanggalLahir.setText(bundle.getString("ttl",""));
         imageUri = bundle.getString("imageUri","");
         readFace = bundle.getString("readFace","");
+        nik = bundle.getString("nik","");
 
         String hakAkses = bundle.getString("hakAkses","");
         if (hakAkses.equals("true")){
@@ -284,7 +286,7 @@ public class DialogEdit extends DialogFragment implements View.OnClickListener {
         String jabatan = mJabatan.getSelectedItem().toString();
         String hakAkses = String.valueOf(mAdmin.isChecked());
 
-        DataKaryawan dataKaryawan = new DataKaryawan(userId,nama,email,asal,ttl,agama,kelamin,jabatan,image,readFace, hakAkses, false);
+        DataKaryawan dataKaryawan = new DataKaryawan(nik,nama,email,asal,ttl,agama,kelamin,jabatan,image,readFace, hakAkses, false);
         Map<String,Object> map = dataKaryawan.toMap();
         firebaseFirestore.collection("users").document(userId)
                 .update(map)

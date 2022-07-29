@@ -44,6 +44,7 @@ public class DataKaryawan {
 
     public Map<String, Object> toMap(){
         HashMap<String, Object> result = new HashMap<>();
+        result.put("nik",nik);
         result.put("nama",nama);
         result.put("email", email);
         result.put("asal", asal);

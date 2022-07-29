@@ -1,5 +1,6 @@
 package com.example.absensi.ui.pegawai;
 
+import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
 import androidx.appcompat.app.AlertDialog;
 import androidx.appcompat.app.AppCompatActivity;
@@ -27,8 +28,10 @@ import com.example.absensi.MainActivity;
 import com.example.absensi.R;
 import com.example.absensi.core.model.DataKaryawan;
 import com.example.absensi.databinding.ActivityAddPegawaiBinding;
+import com.google.android.gms.tasks.OnFailureListener;
 import com.google.firebase.auth.FirebaseAuth;
 import com.google.firebase.firestore.FirebaseFirestore;
+import com.google.firebase.firestore.QueryDocumentSnapshot;
 import com.google.firebase.storage.FirebaseStorage;
 import com.google.firebase.storage.StorageReference;
 import org.opencv.android.BaseLoaderCallback;
@@ -43,6 +46,7 @@ import java.text.SimpleDateFormat;
 import java.util.Calendar;
 import java.util.Locale;
 import java.util.Map;
+import java.util.Objects;
 import java.util.regex.Pattern;
 
 public class AddPegawaiActivity extends AppCompatActivity implements View.OnClickListener {
@@ -169,6 +173,9 @@ public class AddPegawaiActivity extends AppCompatActivity implements View.OnClic
             if (resultFace.isEmpty()){
                 binding.infoData.setVisibility(View.GONE);
                 binding.tvFailed.setVisibility(View.VISIBLE);
+            }else {
+                binding.infoData.setVisibility(View.VISIBLE);
+                binding.tvFailed.setVisibility(View.GONE);
             }
 
         }else {
@@ -180,11 +187,17 @@ public class AddPegawaiActivity extends AppCompatActivity implements View.OnClic
         username = utils.usernameFromEmail(binding.etEmail.getText().toString());
         if (imageUri != null){
             StorageReference storageReference = FirebaseStorage.getInstance().getReference().child(username).child(System.currentTimeMillis()+"."+getFileExtension(imageUri));
-            storageReference.putFile(imageUri).addOnCompleteListener(task ->
+            storageReference.putFile(imageUri).addOnCompleteListener(task -> {
+                if (task.isSuccessful()){
                     storageReference.getDownloadUrl().addOnSuccessListener(uri -> {
-                String url = uri.toString();
-                submitPost(url);
-            }));
+                        String url = uri.toString();
+                        submitPost(url);
+                    });
+                }else {
+                    progressDialog.dismiss();
+                    Toast.makeText(null,"Register failed",Toast.LENGTH_LONG).show();
+                }
+            });
         }
     }
 
@@ -205,7 +218,7 @@ public class AddPegawaiActivity extends AppCompatActivity implements View.OnClic
             DataKaryawan dataKaryawan = new DataKaryawan(nik,nama,email,asal,tanggal,agama,kelamin,jabatan,uri, resultFace, hakAkses, false);
             Map<String, Object> map = dataKaryawan.toMap();
             firebaseFirestore.collection("users")
-                    .document(nik)
+                    .document(username)
                     .set(map)
                     .addOnSuccessListener(unused -> {
                         progressDialog.dismiss();
@@ -252,9 +265,9 @@ public class AddPegawaiActivity extends AppCompatActivity implements View.OnClic
             binding.etNik.setError(null);
         }
 
-        int nik = Integer.parseInt(binding.etNik.getText().toString());
-
-        if (nik <= 16){
+        String nik = binding.etNik.getText().toString();
+        Log.i("celeng", String.valueOf(nik.length()));
+        if (!(nik.length() <= 16)){
             result = false;
             binding.etNik.setError("Panjang NIK harus 16");
         }else {
@@ -276,11 +289,12 @@ public class AddPegawaiActivity extends AppCompatActivity implements View.OnClic
         }
 
         String regexPattern = "^(.+)@(\\S+)$";
-        result = Pattern.compile(regexPattern)
+        Boolean resultEmail = Pattern.compile(regexPattern)
                 .matcher(binding.etEmail.getText().toString())
                 .matches();
 
-        if (!result){
+        if (!resultEmail){
+            result = false;
             binding.etEmail.setError("Format email");
         }else {
             binding.etEmail.setError(null);

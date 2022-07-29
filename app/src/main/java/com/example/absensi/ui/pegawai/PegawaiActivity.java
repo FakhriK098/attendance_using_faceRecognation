@@ -103,6 +103,7 @@ public class PegawaiActivity extends AppCompatActivity implements AbsenAdapter.I
                 bundle.putString("imageUri",list.get(0).getImageUri());
                 bundle.putString("readFace",list.get(0).getReadFace());
                 bundle.putString("hakAkses",list.get(0).getHakAkses());
+                bundle.putString("nik", list.get(0).getNik());
                 dialogEdit.setArguments(bundle);
                 dialogEdit.show(getSupportFragmentManager(),"DialogEdit");
 
@@ -137,11 +138,8 @@ public class PegawaiActivity extends AppCompatActivity implements AbsenAdapter.I
 
         firebaseFirestore.collection("users").document(userId)
                 .delete().addOnSuccessListener(unused -> {
-                    StorageReference reference = FirebaseStorage.getInstance().getReference();
-                    reference.child(folder).delete().addOnSuccessListener(unused1 -> {
-                        progressDialog.dismiss();
-                        startActivity(new Intent(PegawaiActivity.this, MainActivity.class));
-                    });
+                    progressDialog.dismiss();
+                    startActivity(new Intent(PegawaiActivity.this, MainActivity.class));
                 }).addOnFailureListener(e -> {
                     progressDialog.dismiss();
                     Toast.makeText(PegawaiActivity.this, e.getMessage(), Toast.LENGTH_SHORT).show();
@@ -208,7 +206,7 @@ public class PegawaiActivity extends AppCompatActivity implements AbsenAdapter.I
         binding.vBiodata.tvAgamaPegawai.setText(karyawan.getAgama());
         binding.vBiodata.tvKelaminPegawai.setText(karyawan.getJenis_kelamin());
         binding.vBiodata.tvJabatanPegawai.setText(karyawan.getJabatan());
-        binding.vBiodata.tvNikPegawai.setText(userId);
+        binding.vBiodata.tvNikPegawai.setText(karyawan.getNik());
 
 
         Glide.with(binding.imgPegawai.getContext())
